@@ -5,10 +5,11 @@ import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 
 @Component
 public class CustomerMapper implements Mapper<CustomerEntity, CustomerDto>{
-
 
     private final ModelMapper modelMapper;
 
@@ -16,13 +17,14 @@ public class CustomerMapper implements Mapper<CustomerEntity, CustomerDto>{
         this.modelMapper = modelMapper;
     }
 
+
     @Override
-    public CustomerEntity toDto(CustomerDto customerDto) {
-        return modelMapper.map(customerDto, CustomerEntity.class);
+    public CustomerDto toDto(CustomerEntity customerEntity) {
+        return modelMapper.map(customerEntity, CustomerDto.class);
     }
 
     @Override
-    public CustomerDto fromDto(CustomerEntity customerEntity) {
-        return modelMapper.map(customerEntity, CustomerDto.class);
+    public CustomerEntity toEntity(CustomerDto customerDto) {
+        return modelMapper.map(customerDto, CustomerEntity.class);
     }
 }

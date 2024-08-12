@@ -1,7 +1,11 @@
 package com.restApi.bankPortal.mappers;
 
+import com.restApi.bankPortal.domain.entities.CustomerEntity;
+
+import java.util.Optional;
+
 public interface Mapper<A, B> {
 
-    A toDto(B b);
-    B fromDto(A a);
+    B toDto(CustomerEntity a);
+    A toEntity(B b);
 }
