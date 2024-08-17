@@ -31,4 +31,9 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean existByEmail(String email) {
         return customerRepository.existsByEmail(email);
     }
+
+    @Override
+    public Optional<CustomerEntity> findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
 }

@@ -9,4 +9,5 @@ public interface CustomerService {
     public CustomerEntity createCustomer(CustomerEntity customer);
     public Optional<CustomerEntity> findOne(Long id);
     public boolean existByEmail(String email);
+    public Optional<CustomerEntity> findByEmail(String email);
 }
