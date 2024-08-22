@@ -1,10 +1,13 @@
 package com.restApi.bankPortal.services.impl;
 
 import com.restApi.bankPortal.apiResponseHandler.ApiResponse;
+import com.restApi.bankPortal.domain.dto.LoginForm;
 import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import com.restApi.bankPortal.repository.CustomerRepository;
 import com.restApi.bankPortal.security.JwtService;
 import com.restApi.bankPortal.services.CustomerService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -16,11 +19,14 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+
+    private final AuthenticationManager authenticationManager;
     UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, UserDetailsService userDetailsService, JwtService jwtService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtService jwtService) {
         this.customerRepository = customerRepository;
+        this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
     }
@@ -46,11 +52,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ApiResponse<?> authenticate(String username) {
+    public ApiResponse<?> authenticate(LoginForm request) {
+
+        authenticationManager.authenticate(
+
+                new UsernamePasswordAuthenticationToken(
+                        request.username(),
+                        request.password()
+                )
+        );
 
         HashMap<String, Object> access_token = new HashMap<>();
 
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.username());
         String token = jwtService.generateToken(userDetails);
         access_token.put("access_toke", token);
         return new ApiResponse<>("login successful", true, access_token);

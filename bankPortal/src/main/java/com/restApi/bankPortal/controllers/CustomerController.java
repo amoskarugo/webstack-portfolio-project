@@ -2,12 +2,12 @@ package com.restApi.bankPortal.controllers;
 
 
 import com.restApi.bankPortal.apiResponseHandler.ApiResponse;
-import com.restApi.bankPortal.domain.LoginForm;
+import com.restApi.bankPortal.domain.dto.LoginForm;
 import com.restApi.bankPortal.domain.dto.CustomerDto;
 import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import com.restApi.bankPortal.mappers.Mapper;
 import com.restApi.bankPortal.services.impl.CustomerServiceImpl;
-import com.restApi.bankPortal.utils.GenerateUUID;
+import com.restApi.bankPortal.utils.GenerateRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @Autowired
-    GenerateUUID generateUUID;
+    GenerateRandom generateUUID;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,12 +55,12 @@ public class CustomerController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginForm loginForm){
+    public ResponseEntity<?> login(@RequestBody LoginForm requestBody){
 
-        if(!customerService.existByEmail(loginForm.username()))
+        if(!customerService.existByEmail(requestBody.username()))
             return ResponseEntity.ok("Email does not exist");
 
-        ApiResponse<?> response = customerService.authenticate(loginForm.username());
+        ApiResponse<?> response = customerService.authenticate(requestBody);
         return ResponseEntity.ok(response);
     }
 

@@ -1,6 +1,7 @@
 package com.restApi.bankPortal.services;
 
 import com.restApi.bankPortal.apiResponseHandler.ApiResponse;
+import com.restApi.bankPortal.domain.dto.LoginForm;
 import com.restApi.bankPortal.domain.entities.CustomerEntity;
 
 import java.util.Optional;
@@ -12,5 +13,5 @@ public interface CustomerService {
     public boolean existByEmail(String email);
     public Optional<CustomerEntity> findByEmail(String email);
 
-    ApiResponse<?> authenticate(String username);
+    ApiResponse<?> authenticate(LoginForm request);
 }

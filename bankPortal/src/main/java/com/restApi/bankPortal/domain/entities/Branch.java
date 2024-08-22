@@ -18,6 +18,7 @@ import java.util.List;
 public class Branch {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long branch_id;
     @Column(nullable = false, unique = true)
     private String name;

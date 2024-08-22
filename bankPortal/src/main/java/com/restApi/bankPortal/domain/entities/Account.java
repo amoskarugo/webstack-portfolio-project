@@ -1,5 +1,7 @@
 package com.restApi.bankPortal.domain.entities;
 
+import com.restApi.bankPortal.enums.AccountType;
+import com.restApi.bankPortal.enums.Currency;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +28,12 @@ public class Account {
     @Column(nullable = false)
     private String account_status;
     @Column(nullable = false)
-    private String currency;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
     @Column(nullable = false)
-    private String account_type;
+
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
 
     @Column(name = "branch_id", nullable = false)
     private Long branch_id;

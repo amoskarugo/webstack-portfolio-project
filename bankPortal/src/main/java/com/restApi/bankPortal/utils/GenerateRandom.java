@@ -8,7 +8,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Configuration
-public class GenerateUUID {
+public class GenerateRandom {
 
 
     @Bean
