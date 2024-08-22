@@ -30,4 +30,5 @@ public class CustomerDto {
     private String password;
     private LocalDate dob;
     private Timestamp created_at;
+    private String role;
 }
