@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface CustomerRepository extends CrudRepository<CustomerEntity, Long> {
     boolean existsByEmail(String email);
 
-    Optional<CustomerEntity> findByEmail(String email);
+    CustomerEntity findByEmail(String email);
 }

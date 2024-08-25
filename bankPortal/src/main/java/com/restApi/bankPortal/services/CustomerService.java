@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public interface CustomerService {
 
-    public CustomerEntity createCustomer(CustomerEntity customer);
-    public Optional<CustomerEntity> findOne(Long id);
-    public boolean existByEmail(String email);
-    public Optional<CustomerEntity> findByEmail(String email);
+    CustomerEntity createCustomer(CustomerEntity customer);
+    Optional<CustomerEntity> findOne(Long id);
+    boolean existByEmail(String email);
+    CustomerEntity findByEmail(String email);
 
     ApiResponse<?> authenticate(LoginForm request);
 }

@@ -6,6 +6,7 @@ import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import com.restApi.bankPortal.repository.CustomerRepository;
 import com.restApi.bankPortal.security.JwtService;
 import com.restApi.bankPortal.services.CustomerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<CustomerEntity> findByEmail(String email) {
+    public CustomerEntity findByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
 
@@ -67,9 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.username());
         String token = jwtService.generateToken(userDetails);
         access_token.put("access_toke", token);
-        return new ApiResponse<>("login successful", true, access_token);
+        return new ApiResponse<>(HttpStatus.OK.value(), "login success!", access_token);
     }
-
-
 }
 

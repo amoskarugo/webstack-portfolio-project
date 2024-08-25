@@ -37,12 +37,9 @@ public class CustomerEntity implements UserDetails {
     private LocalDateTime created_at;
     @Enumerated(EnumType.STRING)
     private Role role;
-    //TODO
 
 
-
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> accounts;
 
 

@@ -4,8 +4,6 @@ import com.restApi.bankPortal.domain.entities.Branch;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 public interface BranchRepository extends CrudRepository<Branch, Long> {
 

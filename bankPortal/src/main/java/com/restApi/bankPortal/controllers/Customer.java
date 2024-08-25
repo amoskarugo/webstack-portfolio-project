@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/")
-public class CustomerController {
+public class Customer {
 
     @Autowired
     GenerateRandom generateUUID;
@@ -26,7 +26,7 @@ public class CustomerController {
     private final Mapper<CustomerEntity, CustomerDto> customerMapper;
     private  final CustomerServiceImpl customerService;
 
-    public CustomerController(Mapper<CustomerEntity, CustomerDto> customerMapper, CustomerServiceImpl customerService) {
+    public Customer(Mapper<CustomerEntity, CustomerDto> customerMapper, CustomerServiceImpl customerService) {
         this.customerMapper = customerMapper;
         this.customerService = customerService;
 
@@ -41,16 +41,16 @@ public class CustomerController {
             customer_id = generateUUID.generateRandomNumber();
 
         if (customerService.existByEmail(customerDto.getEmail()))
-            return ResponseEntity.ok(new ApiResponse<>("email already exists!",
-                    false, null));
+            return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CONFLICT.value(),
+                    "email already exists!", null));
 
         customerDto.setCustomer_id(customer_id);
         customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         CustomerEntity customerEntity = customerMapper.toEntity(customerDto);
         CustomerEntity savedCustomerEntity = customerService.createCustomer(customerEntity);
 
-        return new ResponseEntity<>(new ApiResponse<>("customer created successfully!",
-                true, customerMapper.toDto(savedCustomerEntity)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.CREATED.value(),"customer created successfully!",
+                customerMapper.toDto(savedCustomerEntity)), HttpStatus.CREATED);
     }
 
 

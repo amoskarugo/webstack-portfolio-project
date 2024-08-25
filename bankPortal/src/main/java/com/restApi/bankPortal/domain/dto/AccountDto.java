@@ -1,5 +1,8 @@
 package com.restApi.bankPortal.domain.dto;
 
+import com.restApi.bankPortal.domain.entities.Branch;
+import com.restApi.bankPortal.domain.entities.CustomerEntity;
+import com.restApi.bankPortal.enums.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,12 +16,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class AccountDto {
-    private Long account_no;
+    private Long accountNo;
     private Long customer_id;
     private BigDecimal balance;
-    private String account_status;
+    private AccountStatus account_status;
     private String currency;
-    private String account_type;
-    private Long branch_id;
+    private String accountType;
     private String branch_name;
+    private Branch branch;
+    private int pin;
+    private CustomerEntity customer;
 }

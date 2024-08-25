@@ -2,7 +2,6 @@ package com.restApi.bankPortal.mappers;
 
 import com.restApi.bankPortal.domain.dto.AccountDto;
 import com.restApi.bankPortal.domain.entities.Account;
-import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
