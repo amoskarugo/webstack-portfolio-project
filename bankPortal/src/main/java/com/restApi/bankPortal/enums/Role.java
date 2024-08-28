@@ -1,4 +1,4 @@
-package com.restApi.bankPortal.domain.dto;
+package com.restApi.bankPortal.enums;
 
 public enum Role {
 
