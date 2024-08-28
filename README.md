@@ -196,7 +196,7 @@ The API endpoints require bearer token authentication. Users must obtain a valid
 - 404 Not Found: The user's account was not found.
 
 #### 1.6. Fund Transfer
-- **Endpoint:** `/api/account/fund-transfer`
+- **Endpoint:** `/api/v1/account/transfer`
 - **Method:** `POST`
 - **Authorization:** Bearer Token
 - **Request Body:**
@@ -230,6 +230,75 @@ The API endpoints require bearer token authentication. Users must obtain a valid
 - 400 Bad Request: The request body is missing or invalid, or the account does not have sufficient balance.
 - 401 Unauthorized: The user is not authenticated or the provided PIN is incorrect. Please ensure you include a valid bearer token in the request header.
 - 404 Not Found: The user's source or target account was not found.
+
+#### 1.6. Borrow Loan
+- **Endpoint:** `/api/v1/loan/borrow`
+- **Method:** `POST`
+- **Authorization:** Bearer Token
+- **Request Body:**
+  ```json
+  {
+    "loan_type": "PERSONAL",
+    "amount": 20200,
+    "account_number": 430831349
+  }
+  ```
+- **Description:** Borrow a loan of the specified amount.
+- **Response:**
+  - Status Code: 200 OK
+  - Body:
+    ```json
+    {
+    "httpStatusCode": 200,
+    "message": "loan successfully  credited to account 634176595",
+    "data": {
+        "amount": 20200,
+        "load_id": 2,
+        "date_issued": "2024-08-28T22:34:28.73476611",
+        "due_date": "2025-09-28",
+        "payment_start_date": "2024-09-27"
+      }
+    }
+    ```
+
+**Possible Status Codes:**
+- 200 OK: Loan request was successful.
+- 400 Bad Request: The request body is missing or invalid, or the account does not have sufficient balance.
+- 401 Unauthorized: The user is not authenticated or the provided PIN is incorrect. Please ensure you include a valid bearer token in the request header.
+- 404 Not Found: The user's target account was not found.
+#### 1.6. Borrow Loan
+- **Endpoint:** `/api/v1/loan/pay_loan`
+- **Method:** `POST`
+- **Authorization:** Bearer Token
+- **Request Body:**
+  ```json
+  {
+    "loan_id": 1,
+    "amount": 10000,
+    "account_number": 430831346
+  }
+  ```
+- **Description:** Borrow a loan of the specified amount.
+- **Response:**
+  - Status Code: 200 OK
+  - Body:
+    ```json
+    {
+    "httpStatusCode": 200,
+    "message": "loan paid successfully!",
+    "data": {
+        "transaction_id": 14,
+        "loan_bal": 200.00,
+        "amount paid": 10000
+      }
+    }
+    ```
+
+**Possible Status Codes:**
+- 200 OK: Loan payment request was successful.
+- 400 Bad Request: The request body is missing or invalid, or the account does not have sufficient balance.
+- 401 Unauthorized: The user is not authenticated or the provided PIN is incorrect. Please ensure you include a valid bearer token in the request header.
+- 404 Not Found: The user's target account was not found.
 
 #### 1.7. Transactions
 - **Endpoint:** `/api/account/transactions`
