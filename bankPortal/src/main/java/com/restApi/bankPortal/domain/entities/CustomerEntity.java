@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.restApi.bankPortal.domain.dto.Role;
+import com.restApi.bankPortal.enums.Role;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -39,8 +39,17 @@ public class CustomerEntity implements UserDetails {
     private Role role;
 
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Account> accounts;
+
+    @PreRemove
+    public void clearAccounts() {
+        for (Account account : accounts) {
+            account.setCustomer(null);
+        }
+        accounts.clear();
+    }
+
 
 
     @PrePersist

@@ -1,11 +1,14 @@
 package com.restApi.bankPortal.services.impl;
 
 import com.restApi.bankPortal.apiResponseHandler.ApiResponse;
+import com.restApi.bankPortal.controllers.Customer;
 import com.restApi.bankPortal.domain.dto.LoginForm;
 import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import com.restApi.bankPortal.repository.CustomerRepository;
 import com.restApi.bankPortal.security.JwtService;
 import com.restApi.bankPortal.services.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +21,7 @@ import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-
+    final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     private final CustomerRepository customerRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -34,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerEntity createCustomer(CustomerEntity customer) {
+        logger.info(customer.toString());
         return customerRepository.save(customer);
     }
 
@@ -67,7 +71,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.username());
         String token = jwtService.generateToken(userDetails);
+        access_token.put("token_type", "Bearer");
         access_token.put("access_toke", token);
+
         return new ApiResponse<>(HttpStatus.OK.value(), "login success!", access_token);
     }
 }

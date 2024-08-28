@@ -43,15 +43,18 @@ public class Account {
     @Column(nullable = false)
     private int pin;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id", updatable = false)
     private Branch branch;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", updatable = false)
     private CustomerEntity customer;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "account",orphanRemoval = true)
     private List<Transactions> transactions;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", orphanRemoval = true)
+    private List<Loan> loans;
 
 
     @PrePersist

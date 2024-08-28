@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Service
@@ -68,12 +69,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ApiResponse<?> createAccount(AccountDto requestBody) {
-
-        Long customer_id, branch_id;
-
-
-
-
+        data.clear();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.getPrincipal() instanceof UserDetails && authentication.isAuthenticated())
@@ -95,7 +91,7 @@ public class AccountServiceImpl implements AccountService {
 
         Branch branch = branchService.findByBranchName(requestBody.getBranch_name());
 
-        Long accountNumber = generateRandom.generateRandomNumber();
+        Long accountNumber = generateRandom.generateAccountNumber();
 
 
         requestBody.setCustomer_id(customer.getCustomer_id());
@@ -119,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ApiResponse<?> deposit(DepositDto request) {
-
+        data.clear();
         BigDecimal amount = request.amount();
         Long account_no = request.accountNumber();
         logger.info("account number: {}", account_no);
@@ -128,8 +124,7 @@ public class AccountServiceImpl implements AccountService {
         Account depositToAccount = accountRepository.findByAccountNo(account_no)
                 .orElseThrow(
 
-                        ()-> new EntityNotFoundException("Account not found with number: " +
-                                account_no)
+                        ()-> new EntityNotFoundException("error while retrieving account " + account_no +  ", check account number and try again!")
                 );
 
 
@@ -161,7 +156,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ApiResponse<?> withdraw(Withdraw request) {
-
+        data.clear();
         Long account_no = request.accountNumber();
         BigDecimal amount = request.amount();
 
@@ -183,7 +178,7 @@ public class AccountServiceImpl implements AccountService {
         withdrawFromAccount.setBalance(withdrawFromAccount.getBalance().subtract(amount));
         Account account = accountRepository.save(withdrawFromAccount);
         Transactions transaction = Transactions.builder()
-                .memo(TransactionType.WITHDRAW)
+                .transactionType(TransactionType.WITHDRAW)
                 .from_account(account.getAccountNo())
                 .account(account)
                 .amount(amount)
@@ -201,6 +196,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ApiResponse<?> transfer(TransferDto request) {
+        data.clear();
 
         Long toAccount = request.toAccount();
         Long fromAccount = request.fromAccount();
@@ -225,7 +221,7 @@ public class AccountServiceImpl implements AccountService {
 
         BigDecimal currentBal = transferFromAccount.getBalance();
 
-        if (amount.compareTo(currentBal) < 0) {
+        if (amount.compareTo(currentBal) > 0) {
             throw  new InsufficientBalanceException("insufficient balance to perform this transaction!");
         }
         transferFromAccount.setBalance(transferFromAccount.getBalance().subtract(amount));
@@ -257,5 +253,6 @@ public class AccountServiceImpl implements AccountService {
 
         return new ApiResponse<>(HttpStatus.CREATED.value(), "transfer successful", data);
     }
+
 
 }

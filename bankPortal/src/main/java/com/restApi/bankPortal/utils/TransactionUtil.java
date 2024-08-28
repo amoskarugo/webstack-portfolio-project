@@ -4,7 +4,6 @@ import com.restApi.bankPortal.domain.entities.Account;
 import com.restApi.bankPortal.domain.entities.Transactions;
 import com.restApi.bankPortal.enums.TransactionType;
 import lombok.Builder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
@@ -20,7 +19,7 @@ public class TransactionUtil {
                                           Long to_account, BigDecimal amount,
                                           Account account){
         return Transactions.builder()
-                .memo(type)
+                .transactionType(type)
                 .to_account(to_account)
                 .from_account(from_account)
                 .amount(amount)
@@ -33,7 +32,7 @@ public class TransactionUtil {
                                          BigDecimal amount, Account debitAccount){
 
         return Transactions.builder()
-                .memo(TransactionType.TRANSFER)
+                .transactionType(TransactionType.TRANSFER)
                 .from_account(sourceAccount)
                 .to_account(destinationAccount)
                 .amount(amount.negate())
@@ -47,7 +46,7 @@ public class TransactionUtil {
                                          BigDecimal amount, Account creditAccount){
 
         return Transactions.builder()
-                .memo(TransactionType.TRANSFER)
+                .transactionType(TransactionType.TRANSFER)
                 .from_account(sourceAccount)
                 .to_account(destinationAccount)
                 .amount(amount)

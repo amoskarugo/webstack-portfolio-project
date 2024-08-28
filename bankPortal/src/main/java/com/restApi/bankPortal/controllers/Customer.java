@@ -6,8 +6,11 @@ import com.restApi.bankPortal.domain.dto.LoginForm;
 import com.restApi.bankPortal.domain.dto.CustomerDto;
 import com.restApi.bankPortal.domain.entities.CustomerEntity;
 import com.restApi.bankPortal.mappers.Mapper;
+import com.restApi.bankPortal.services.impl.AccountServiceImpl;
 import com.restApi.bankPortal.services.impl.CustomerServiceImpl;
 import com.restApi.bankPortal.utils.GenerateRandom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +40,8 @@ public class Customer {
 
         Long customer_id = generateUUID.generateRandomNumber();
         //Ensure generated customer id does not exist
-        while (customerService.findOne(customer_id).isPresent())
-            customer_id = generateUUID.generateRandomNumber();
+//        while (customerService.findOne(customer_id).isPresent())
+//            customer_id = generateUUID.generateRandomNumber();
 
         if (customerService.existByEmail(customerDto.getEmail()))
             return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CONFLICT.value(),
@@ -47,6 +50,8 @@ public class Customer {
         customerDto.setCustomer_id(customer_id);
         customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
         CustomerEntity customerEntity = customerMapper.toEntity(customerDto);
+
+
         CustomerEntity savedCustomerEntity = customerService.createCustomer(customerEntity);
 
         return new ResponseEntity<>(new ApiResponse<>(HttpStatus.CREATED.value(),"customer created successfully!",
@@ -57,9 +62,8 @@ public class Customer {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginForm requestBody){
 
-        if(!customerService.existByEmail(requestBody.username()))
-            return ResponseEntity.ok("Email does not exist");
-
+//        if(!customerService.existByEmail(requestBody.username()))
+//            return ResponseEntity.ok("Email does not exist");
         ApiResponse<?> response = customerService.authenticate(requestBody);
         return ResponseEntity.ok(response);
     }
