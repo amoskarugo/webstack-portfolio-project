@@ -266,7 +266,7 @@ The API endpoints require bearer token authentication. Users must obtain a valid
 - 400 Bad Request: The request body is missing or invalid, or the account does not have sufficient balance.
 - 401 Unauthorized: The user is not authenticated or the provided PIN is incorrect. Please ensure you include a valid bearer token in the request header.
 - 404 Not Found: The user's target account was not found.
-#### 1.6. Borrow Loan
+#### 1.7. Pay Loan
 - **Endpoint:** `/api/v1/loan/pay_loan`
 - **Method:** `POST`
 - **Authorization:** Bearer Token
@@ -300,7 +300,7 @@ The API endpoints require bearer token authentication. Users must obtain a valid
 - 401 Unauthorized: The user is not authenticated or the provided PIN is incorrect. Please ensure you include a valid bearer token in the request header.
 - 404 Not Found: The user's target account was not found.
 
-#### 1.7. Transactions
+#### 1.8. Transactions
 - **Endpoint:** `/api/account/transactions`
 - **Method:** `GET`
 - **Authorization:** Bearer Token
@@ -313,7 +313,7 @@ The API endpoints require bearer token authentication. Users must obtain a valid
 - 200 OK: The list of transactions was successfully retrieved.
 - 401 Unauthorized: The user is not authenticated. Please ensure you include a valid bearer token in the request header.
 
-#### 1.8. Account Details
+#### 1.9. Account Details
 - **Endpoint:** `/api/dashboard/account/{account_no}`
 - **Method:** `GET`
 - **Authorization:** Bearer Token
@@ -329,7 +329,7 @@ The API endpoints require bearer token authentication. Users must obtain a valid
 
 
 
-#### 2.2. Get User Details
+#### 2.0. Get User Details
 - **Endpoint:** `/api/dashboard/user`
 - **Method:** `GET`
 - **Authorization:** Bearer Token
